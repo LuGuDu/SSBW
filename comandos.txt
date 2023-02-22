@@ -1,0 +1,6 @@
+Tarea 0:
+    docker-compose run web django-admin startproject mi_sitio_web .
+    docker-compose up
+
+Tarea 1: 
+    docker-compose run web python populate.py
