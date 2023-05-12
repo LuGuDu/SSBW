@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Update Book</h1>
+      <form method="POST" action="{% url 'update_data' id %}">
+        {% csrf_token %}
+        {% bootstrap_form formulario %}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

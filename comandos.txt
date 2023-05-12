@@ -4,3 +4,5 @@ Tarea 0:
 
 Tarea 1: 
     docker-compose run web python populate.py
+
+Tarea 2:

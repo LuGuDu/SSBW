@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div class="container">
+      <h1>Resultado de busqueda:</h1>
+      {% if user.is_staff%}
+      <div>
+        <a href="{% url 'create' %}">
+          <button type="button" class="btn btn-success">New book</button>
+        </a>
+      </div>
+      {% endif %}
+
+      {% if books%}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            {% if user.is_staff%}
+              <th scope="col">Actions</th>
+              <th scope="col"></th>
+            {% endif %}
+          </tr>
+        </thead>
+        {% for book in books %}
+        <tr>
+          <td>
+            <a href="{% url 'details' book.id %}">
+              {{book.title}}
+            </a>
+          </td>
+          <td>{{book.author}}</td>
+          {% if user.is_staff%}
+            <td>
+              <!-- DELETE Button trigger modal -->
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ book.id }}">
+                Delete
+              </button>
+          
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{ book.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete this book?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <form method="post" action="{% url 'delete' book.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <form method="post" action="{% url 'update' book.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning">Modificate</button>
+              </form>
+            </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      {% else %}
+        <p>No books found.</p>
+      </table>
+
+      {% endif%}
+    </div>
+
+{% endblock content %}
